@@ -1,6 +1,41 @@
 # {{TABLE NAME}} Model and Repository Classes Design Recipe
 
-_Copy this recipe template to design and implement Model and Repository classes for a database table._
+STRAIGHT UP
+
+As a Maker
+So that I can let people know what I am doing  
+I want to post a message (peep) to chitter
+
+As a maker
+So that I can see what others are saying  
+I want to see all peeps in reverse chronological order
+
+As a Maker
+So that I can better appreciate the context of a peep
+I want to see the time at which it was made
+
+As a Maker
+So that I can post messages on Chitter as me
+I want to sign up for Chitter
+
+HARDER
+
+As a Maker
+So that only I can post messages on Chitter as me
+I want to log in to Chitter
+
+As a Maker
+So that I can avoid others posting messages on Chitter as me
+I want to log out of Chitter
+
+ADVANCED
+
+As a Maker
+So that I can stay constantly tapped in to the shouty box of Chitter
+I want to receive an email if I am tagged in a Peep
+
+nouns
+message, chitter, posts, user , time
 
 ## 1. Design and create the Table
 
@@ -12,10 +47,13 @@ Otherwise, [follow this recipe to design and create the SQL schema for your tabl
 ```
 # EXAMPLE
 
-Table: students
+Table: peeps
 
 Columns:
-id | name | cohort_name
+id | user_id | title | contents | time
+
+Table: user
+id | username | DOB
 ```
 
 ## 2. Create Test SQL seeds
