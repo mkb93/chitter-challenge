@@ -1,0 +1,18 @@
+<html>
+  <head></head>
+  <body>
+  <h1> Welcome To Chitter </h1>
+  <div>
+  <% @all.each do |peep| %>
+    <h1>PEEP!</h1>
+   <p> <%= peep.content %> <p>
+   <p> <%= peep.time_made %> <p>
+   <p> <%= @users.find(peep.id).username%> <p>
+   
+  <% end %>
+  </div>
+  <div> <a href></div>
+  </body>
+</html>
+
+

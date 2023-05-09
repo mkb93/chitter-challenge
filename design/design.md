@@ -147,15 +147,22 @@ Using comments, define the method signatures (arguments and return value) and wh
 # Repository class
 # (in lib/student_repository.rb)
 
-class StudentRepository
+class PeepRepository
 
   # Selecting all records
   # No arguments
   def all
-    # Executes the SQL query:
-    # SELECT id, name, cohort_name FROM students;
+   sql = 'SELECT * FROM peep;'
+   params =[]
+   result_set = DatabaseConnection.exec_params(sql, params)
+   peeps = []
+   result_set.each do |result|
+   peep = peeps.new
+   peep.time_made = result['time_made']
+   peep.content = result['content']
+   peep.user_id = result['user_id']
+   peep.id = result['id']
 
-    # Returns an array of Student objects.
   end
 
   # Gets a single record by its ID

@@ -1,6 +1,10 @@
 require_relative 'lib/database_connection'
+require_relative 'lib/peep_repository'
+require_relative 'lib/users_repository'
 require 'sinatra/base'
 require 'sinatra/reloader'
+
+DatabaseConnection.connect
 
 class Application < Sinatra::Base
   # This allows the app code to refresh
@@ -8,6 +12,16 @@ class Application < Sinatra::Base
   configure :development do
     register Sinatra::Reloader
   end
+get '/' do
+  repo = PeepRepository.new
+  @users = UsersRepository.new
+  
+  @all = repo.all
+
+  return erb(:index)
+end
+
+
 end
 # We need to give the database name to the method `connect`.
-DatabaseConnection.connect
+
