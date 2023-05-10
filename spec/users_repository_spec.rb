@@ -24,6 +24,20 @@ describe UsersRepository do
       repo = UsersRepository.new.find_username('user1')
       expect(repo.username).to eq 'user1' 
     end
+    it 'tests if it finds no object' do
+      repo = UsersRepository.new.find_username('user0')
+      expect(repo).to eq nil 
+    end
+  end
+  context 'find_email method' do
+    it 'tests if it finds the correct object' do
+      repo = UsersRepository.new.find_email('john@hotmail.com')
+      expect(repo.email).to eq 'john@hotmail.com' 
+    end
+    it 'tests if it finds no object' do
+      repo = UsersRepository.new.find_email('user0')
+      expect(repo).to eq nil 
+    end
   end
   context 'create method' do
     it 'tests if it creates a new user' do

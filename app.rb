@@ -27,13 +27,25 @@ get '/sign_up' do
   return erb(:sign_up)
 end
 post '/new_user' do
+  @fullname = params[:fullname]
+  puts @fullname
   @username = params[:username]
   @email = params[:email]
+  
   repo = UsersRepository.new
   
-  matched_email = 
-  repo = repo.all 
-  return erb(:getting_started)
+  matched_email = repo.find_email(@email)
+  matched_username = repo.find_username(@username)
+
+  
+  if !matched_email && !matched_username 
+    new_user = User.new(@username, @fullname, @email)
+    repo.create(new_user)
+    repo = repo.all 
+    return erb(:getting_started)
+  else
+    return erb(:already_exists)
+  end
 end
 get '/peep/new' do
   return erb(:new_peep)

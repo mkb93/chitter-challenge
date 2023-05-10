@@ -28,4 +28,11 @@ describe Application do
       expect(response.body).to include "Welcome"
     end
   end
+  context "GET /new_user" do
+    it "gets 200 ok" do
+      response = post("/new_user", fullname: 'james')
+      expect(response.status).to eq 200
+      expect(response.body).to include ""
+    end
+  end
 end

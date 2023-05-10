@@ -25,7 +25,7 @@ class UsersRepository
     sql = 'SELECT * FROM users WHERE username = $1;'
     params = [str]
     result=DatabaseConnection.exec_params(sql,params)
-    if result[0]['id'].to_i>0
+    if !result.ntuples.zero?
       result_set = result[0]
     user = User.new(result_set['username'], result_set['full_name'],result_set['email'])
     user.id = result_set['id']
@@ -37,8 +37,8 @@ class UsersRepository
   def find_email(str)
     sql = 'SELECT * FROM users WHERE email = $1;'
     params = [str]
-    result=DatabaseConnection.exec_params(sql,params)[0]
-    if result.length >0
+    result=DatabaseConnection.exec_params(sql,params)
+    if !result.ntuples.zero?
       result_set = result[0]
     user = User.new(result_set['username'], result_set['full_name'], result_set['email'])
     user.id = result_set['id']
