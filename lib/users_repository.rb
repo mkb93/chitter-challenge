@@ -25,4 +25,5 @@ class UsersRepository
     user.full_name = result_set[0]['full_name']
     user
   end
+  
 end
