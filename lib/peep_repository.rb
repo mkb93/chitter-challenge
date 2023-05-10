@@ -1,4 +1,5 @@
 require_relative 'peep'
+
 class PeepRepository
 
   # Selecting all records
@@ -9,13 +10,20 @@ class PeepRepository
    result_set = DatabaseConnection.exec_params(sql, params)
    peeps = []
    result_set.each do |result|
-    peep = Peep.new
+    peep = Peep.new(result['content'], result['user_id'])
     peep.time_made = result['time_made']
-    peep.content = result['content']
-    peep.user_id = result['user_id']
     peep.id = result['id']
     peeps << peep
     end
   peeps
   end
+  def find(id)
+    sql = 'SELECT * FROM peeps WHERE id = $1;'
+    params = [id]
+    result_set=DatabaseConnection.exec_params(sql,params)[0]
+    peep = Peep.new(result_set['content'], result_set['user_id'])
+    peep.id = result_set['id']
+    peep.time_made = result_set['time_made']
+    peep
+   end
 end

@@ -3,7 +3,7 @@ CREATE TABLE IF NOT EXISTS users (
   username text,
   full_name text
   );
-CREATE TABLE peeps (
+CREATE TABLE IF NOT EXISTS peeps (
   id SERIAL PRIMARY KEY,
   time_made timestamp,
   content text,
