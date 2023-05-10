@@ -1,14 +1,10 @@
 require 'peep'
 require 'peep_repository'
+require 'spec_helper'
 
-def reset_albums_table
-  seed_sql = File.read('spec/seeds_peeps.sql')
-  connection = PG.connect({ host: '127.0.0.1', dbname: 'chitter_db_test' })
-  connection.exec(seed_sql)
-end
 describe PeepRepository do
   before(:each) do 
-    reset_albums_table
+    reset_table
   end
   context 'all method' do
     it 'tests if all returns an array' do
@@ -30,6 +26,20 @@ describe PeepRepository do
       expect(repo.all.length).to eq 2
       peep = Peep.new('peeping', '1')
       repo.create(peep)
+      expect(repo.all.length).to eq 3
+      expect(repo.all.last.content).to eq 'peeping'
+    end
+  end
+  context 'delete method' do
+    it 'tests that a peep can be delete after it is posted' do
+      repo = PeepRepository.new
+      expect(repo.all.length).to eq 2
+      peep = Peep.new('peeping', '1')
+      repo.create(peep)
+      expect(repo.all.length).to eq 3
+      expect(repo.all.last.content).to eq 'peeping'
+      repo.delete(repo.all.last)
+      expect(repo.all.length).to eq 2
     end
   end
 end

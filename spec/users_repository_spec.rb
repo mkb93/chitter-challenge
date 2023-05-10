@@ -1,11 +1,6 @@
 require 'users'
 require 'users_repository'
-
-def reset_table
-  seed_sql = File.read('spec/seeds_peeps.sql')
-  connection = PG.connect({ host: '127.0.0.1', dbname: 'chitter_db_test' })
-  connection.exec(seed_sql)
-end
+require 'spec_helper'
 
 describe UsersRepository do
   before(:each) do 
@@ -22,6 +17,34 @@ describe UsersRepository do
     it 'tests if it finds the correct object' do
       repo = UsersRepository.new.find(1)
       expect(repo.username).to eq 'user1' 
+    end
+  end
+  context 'find_username method' do
+    it 'tests if it finds the correct object' do
+      repo = UsersRepository.new.find_username('user1')
+      expect(repo.username).to eq 'user1' 
+    end
+  end
+  context 'create method' do
+    it 'tests if it creates a new user' do
+      repo = UsersRepository.new
+      expect(repo.all.length).to eq 2
+      user = User.new('strange', 'adolfo strange', 'adolfo@email.com')
+      repo.create(user)
+      expect(repo.all.length).to eq 3
+      expect(repo.all.last.username).to eq 'strange'
+    end
+  end
+  context 'delete method' do
+    it 'tests if it creates a new user' do
+      repo = UsersRepository.new
+      expect(repo.all.length).to eq 2
+      user = User.new('strange', 'adolfo strange', 'adolfo@email.com')
+      repo.create(user)
+      expect(repo.all.length).to eq 3
+      expect(repo.all.last.username).to eq 'strange'
+      repo.delete(repo.all.last)
+      expect(repo.all.length).to eq 2
     end
   end
 end

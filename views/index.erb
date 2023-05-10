@@ -3,6 +3,7 @@
   <body>
   <h1> Welcome To Chitter </h1>
   <div>
+  <% @content %>
   <% @all.each do |peep| %>
     <h1>PEEP!</h1>
    <p> <%= peep.content %> <p>

@@ -5,7 +5,7 @@ require "peep_repository"
 require "users_repository"
 
 
-def reset_albums_table
+def reset_table
   seed_sql = File.read('spec/seeds_peeps.sql')
   connection = PG.connect({ host: '127.0.0.1', dbname: 'chitter_db_test' })
   connection.exec(seed_sql)
@@ -19,7 +19,7 @@ describe Application do
   let(:app) { Application.new }
   
   before(:each) do 
-    reset_albums_table
+    reset_table
   end
   context "GET /" do
     it "gets 200 ok" do

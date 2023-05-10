@@ -1,6 +1,9 @@
 require_relative 'lib/database_connection'
 require_relative 'lib/peep_repository'
 require_relative 'lib/users_repository'
+require_relative 'lib/users'
+require_relative 'lib/peep'
+
 require 'sinatra/base'
 require 'sinatra/reloader'
 
@@ -25,6 +28,11 @@ get '/sign_up' do
 end
 post '/new_user' do
   @username = params[:username]
+  @email = params[:email]
+  repo = UsersRepository.new
+  
+  matched_email = 
+  repo = repo.all 
   return erb(:getting_started)
 end
 get '/peep/new' do
@@ -32,6 +40,7 @@ get '/peep/new' do
 end
 post '/' do
   @content = params[:content] 
+
   repo = PeepRepository.new
   @users = UsersRepository.new
   
