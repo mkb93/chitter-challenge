@@ -1,7 +1,7 @@
 require 'users'
 require 'users_repository'
 require 'spec_helper'
-
+require 'bcrypt'
 describe UsersRepository do
   before(:each) do 
     reset_table
@@ -43,7 +43,7 @@ describe UsersRepository do
     it 'tests if it creates a new user' do
       repo = UsersRepository.new
       expect(repo.all.length).to eq 2
-      user = User.new('strange', 'adolfo strange', 'adolfo@email.com')
+      user = User.new('strange', 'adolfo strange', 'adolfo@email.com', 'password')
       repo.create(user)
       expect(repo.all.length).to eq 3
       expect(repo.all.last.username).to eq 'strange'
@@ -53,7 +53,7 @@ describe UsersRepository do
     it 'tests if it creates a new user' do
       repo = UsersRepository.new
       expect(repo.all.length).to eq 2
-      user = User.new('strange', 'adolfo strange', 'adolfo@email.com')
+      user = User.new('strange', 'adolfo strange', 'adolfo@email.com', 'password')
       repo.create(user)
       expect(repo.all.length).to eq 3
       expect(repo.all.last.username).to eq 'strange'

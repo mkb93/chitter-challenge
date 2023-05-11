@@ -1,6 +1,6 @@
   TRUNCATE TABLE users RESTART IDENTITY CASCADE;
 
-  INSERT INTO users (username, full_name, email) VALUES ('user1', 'john smith', 'john@hotmail.com'),('user2','albert fleming', 'albert@hotmail.com');
+  INSERT INTO users (username, full_name, email, password) VALUES ('user1', 'john smith', 'john@hotmail.com', 'password123'),('user2','albert fleming', 'albert@hotmail.com', '123password');
 
   TRUNCATE TABLE peeps RESTART IDENTITY;
 

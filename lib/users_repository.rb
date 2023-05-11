@@ -1,4 +1,5 @@
 require_relative 'users'
+require 'bcrypt'
 
 class UsersRepository
   def all
@@ -7,7 +8,7 @@ class UsersRepository
     result_set=DatabaseConnection.exec_params(sql,params)
     users = [];
     result_set.each do |part|
-      user = User.new(part['username'], part['full_name'], part['email'])
+      user = User.new(part['username'], part['full_name'], part['email'], part['password'])
       user.id = part['id']
       users << user
     end
@@ -16,10 +17,15 @@ class UsersRepository
   def find(id)
     sql = 'SELECT * FROM users WHERE id = $1;'
     params = [id]
-    result_set=DatabaseConnection.exec_params(sql,params)[0]
-    user = User.new(result_set['username'], result_set['full_name'], result_set['email'])
+    result=DatabaseConnection.exec_params(sql,params)
+    if !result.ntuples.zero?
+      result_set = result[0]
+    user = User.new(result_set['username'], result_set['full_name'], result_set['email'], result_set['password'])
     user.id = result_set['id']
-    user
+    return user
+    else
+      return nil
+    end
   end
   def find_username(str)
     sql = 'SELECT * FROM users WHERE username = $1;'
@@ -27,7 +33,7 @@ class UsersRepository
     result=DatabaseConnection.exec_params(sql,params)
     if !result.ntuples.zero?
       result_set = result[0]
-    user = User.new(result_set['username'], result_set['full_name'],result_set['email'])
+    user = User.new(result_set['username'], result_set['full_name'],result_set['email'], result_set['password'])
     user.id = result_set['id']
     return user
     else
@@ -40,7 +46,7 @@ class UsersRepository
     result=DatabaseConnection.exec_params(sql,params)
     if !result.ntuples.zero?
       result_set = result[0]
-    user = User.new(result_set['username'], result_set['full_name'], result_set['email'])
+    user = User.new(result_set['username'], result_set['full_name'], result_set['email'], result_set['password'])
     user.id = result_set['id']
     return user
     else
@@ -48,8 +54,9 @@ class UsersRepository
     end
   end
   def create(user)
-    sql = 'INSERT INTO users (username, full_name, email) VALUES ($1,$2, $3)'
-    DatabaseConnection.exec_params(sql,[user.username, user.full_name, user.email])
+    encrypted = BCrypt::Password.create(user.password)
+    sql = 'INSERT INTO users (username, full_name, email,password) VALUES ($1,$2, $3, $4)'
+    DatabaseConnection.exec_params(sql,[user.username, user.full_name, user.email, encrypted])
     return user 
   end
 

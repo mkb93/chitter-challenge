@@ -3,7 +3,7 @@ require_relative 'lib/peep_repository'
 require_relative 'lib/users_repository'
 require_relative 'lib/users'
 require_relative 'lib/peep'
-
+require 'bcrypt'
 require 'sinatra/base'
 require 'sinatra/reloader'
 
@@ -19,7 +19,7 @@ get '/' do
   repo = PeepRepository.new
   @users = UsersRepository.new
   
-  @all = repo.all
+  @all = repo.all.reverse
 
   return erb(:index)
 end
@@ -28,10 +28,9 @@ get '/sign_up' do
 end
 post '/new_user' do
   @fullname = params[:fullname]
-  puts @fullname
   @username = params[:username]
   @email = params[:email]
-  
+  @password = params[:password]
   repo = UsersRepository.new
   
   matched_email = repo.find_email(@email)
@@ -39,7 +38,7 @@ post '/new_user' do
 
   
   if !matched_email && !matched_username 
-    new_user = User.new(@username, @fullname, @email)
+    new_user = User.new(@username, @fullname, @email, @password)
     repo.create(new_user)
     repo = repo.all 
     return erb(:getting_started)
@@ -48,15 +47,25 @@ post '/new_user' do
   end
 end
 get '/peep/new' do
+  
   return erb(:new_peep)
 end
 post '/' do
   @content = params[:content] 
-
+  @username = params[:username]
+  
+  
   repo = PeepRepository.new
   @users = UsersRepository.new
+  if !@users.find_username(@username)
+    return redirect('/sign_up')
+  end
+  @user_id = @users.find_username(@username).id
+  peep = Peep.new(@content, @user_id)
+  repo.create(peep)
   
-  @all = repo.all
+  
+  @all = repo.all.reverse
   return erb(:index)
 end
 end

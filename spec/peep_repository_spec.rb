@@ -19,6 +19,11 @@ describe PeepRepository do
       found = repo.find(1)
       expect(found.user_id).to eq '1'
     end
+    it 'returns nil if file doesnt exist' do
+      repo = PeepRepository.new
+      found = repo.find(1000)
+      expect(found).to eq nil
+    end
   end
   context 'create method' do
     it 'tests if a new peep can be created' do
