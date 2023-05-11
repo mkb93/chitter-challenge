@@ -64,4 +64,16 @@ class UsersRepository
     sql = 'DELETE FROM users WHERE id = $1;'
     DatabaseConnection.exec_params(sql,[user.id])
   end
+
+  def login(email, password)
+    check1 = find_email(email)
+    encrypted = BCrypt::Password.new(check1.password)
+    if !check1
+      return false
+    elseif encrypted != check1.password 
+      return false
+    else
+      return true
+    end
+  end
 end

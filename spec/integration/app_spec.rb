@@ -3,7 +3,7 @@ require "rack/test"
 require_relative '../../app'
 require "peep_repository"
 require "users_repository"
-
+require "bcrypt"
 
 def reset_table
   seed_sql = File.read('spec/seeds_peeps.sql')

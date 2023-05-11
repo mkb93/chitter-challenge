@@ -1,0 +1,14 @@
+<html>
+  <head></head>
+  <body>
+  <h1><%= @user.username %></h1>
+  <% @peeps.each do |peep| %>
+    <% if @user.id == peep.user_id %>
+    <p> <%= peep.content %> <p>
+    <p> <%= peep.time_made %> <p>
+    <p> <%= @user.username %> <p>
+    <% end %>
+  <% end%>
+  <div></div>
+  </body>
+</html>

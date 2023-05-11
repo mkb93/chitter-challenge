@@ -68,6 +68,20 @@ post '/' do
   @all = repo.all.reverse
   return erb(:index)
 end
+get '/log_in' do
+  return erb(:log_in)
+end
+post '/:user' do
+  password = params[:password]
+  @users = UsersRepository.new
+  @user = UsersRepository.new.find_username(params[:username])
+  @peeps = PeepRepository.new.all.reverse 
+  if @users.login(@user.email, @user.password)
+    return erb(:user)
+  else
+    return redirect(:log_in)
+  end
+end
 end
 # We need to give the database name to the method `connect`.
 

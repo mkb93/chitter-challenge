@@ -61,4 +61,21 @@ describe UsersRepository do
       expect(repo.all.length).to eq 2
     end
   end
+  context 'sign in method' do
+    it 'tests if it signs in gives true and false results accurately' do
+      users = UsersRepository.new
+      user = User.new('strange', 'adolfo strange', 'adolfo@email.com', 'password')
+      expect(users.all.length).to eq 2
+      users.create(user)
+      expect(users.all.length).to eq 3
+      result =users.login('adolfo@email.com', 'password')
+      expect(result).to eq true
+    
+    end
+    it 'tests that the first two users have encrypted passwords' do
+      users = UsersRepository.new
+      user = users.find_username('user1')
+      expect(users.login(user.email, user.password)).to eq true
+    end
+  end
 end
