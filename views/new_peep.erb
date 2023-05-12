@@ -3,12 +3,12 @@
   <body>
   <h1>what are you gonna share????????</h1>
   <form action="/" method="POST">
-  <label>username</label>
-  <input type="text" name="username">
+  <p> your logined in as <%=@user.username%> <p>
   <label>less than 50 words</label>
   <input type="text" name="content">
   <input type="submit" value="submit">
   </form>
+  <a href='/log_out'>LOG OUT</a>
   <div></div>
   </body>
 </html>

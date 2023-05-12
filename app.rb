@@ -12,6 +12,7 @@ DatabaseConnection.connect
 class Application < Sinatra::Base
   # This allows the app code to refresh
   # without having to restart the server.
+  enable :sessions
   configure :development do
     register Sinatra::Reloader
   end
@@ -47,19 +48,20 @@ post '/new_user' do
   end
 end
 get '/peep/new' do
-  
+  if session[:user] == nil
+    return redirect('/log_in')
+  else
+    @user = session[:user]
   return erb(:new_peep)
+  end
 end
 post '/' do
   @content = params[:content] 
-  @username = params[:username]
+  @username = session[:user].username
   
   
   repo = PeepRepository.new
   @users = UsersRepository.new
-  if !@users.find_username(@username)
-    return redirect('/sign_up')
-  end
   @user_id = @users.find_username(@username).id
   peep = Peep.new(@content, @user_id)
   repo.create(peep)
@@ -69,18 +71,36 @@ post '/' do
   return erb(:index)
 end
 get '/log_in' do
+  if session[:user] != nil
+    return redirect(:user)
+  else
   return erb(:log_in)
+  end
 end
-post '/:user' do
+post '/user' do
   password = params[:password]
   @users = UsersRepository.new
   @user = UsersRepository.new.find_username(params[:username])
   @peeps = PeepRepository.new.all.reverse 
   if @users.login(@user.email, @user.password)
+    session[:user] = @user
     return erb(:user)
   else
     return redirect(:log_in)
   end
+end
+get '/user' do
+  if session[:user] == nil
+    return redirect('/log_in')
+  else
+    @user = session[:user]
+    @peeps = PeepRepository.new.all.reverse 
+    return erb(:user)
+  end
+end
+get '/log_out' do
+  session[:user] = nil
+  return redirect('/')
 end
 end
 # We need to give the database name to the method `connect`.
