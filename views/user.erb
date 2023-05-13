@@ -1,8 +1,11 @@
 <html>
-  <head></head>
+  <head>
+  <link rel="stylesheet" href="/style.css" />
+  </head>
   <body>
- 
+ <img src="https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Ftse1.mm.bing.net%2Fth%3Fid%3DOIP.ndapGeUyZ0m5iDxNQOLkBgHaHa%26pid%3DApi%26h%3D160&f=1&ipt=061c023152c37f8d9cd5b4f341cbb27c1cae0311d8b07b8c2ea17f554c2578b3&ipo=images" alt="user photo">
   <h1><%= @user.username %></h1>
+
   <a href='/log_out'>LOG OUT</a>
   <% @peeps.each do |peep| %>
     <% if @user.id == peep.user_id %>

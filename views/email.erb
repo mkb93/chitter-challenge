@@ -3,10 +3,11 @@
   <link rel="stylesheet" href="/style.css" />
   </head>
   <body>
-  <h1> Welcome <%= @fullname %>, your account username is <%= @username %> </h1>
+  <h1> Your confirmation email sent succesfully </h1>
+  <h1> it was sent to <%=@mail_to%></h1>
+  <a href='peep/new'> click here for your first post  </a>
   <p>chitter is used to connect the world and we do it one peep at a time<p>
     <a href='peep/new'> click here for your first post </a>
-    <a href='/send_email'> click here to get an email confirmation </a>
   <div></div>
   </body>
 </html>

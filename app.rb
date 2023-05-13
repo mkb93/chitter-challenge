@@ -6,6 +6,8 @@ require_relative 'lib/peep'
 require 'bcrypt'
 require 'sinatra/base'
 require 'sinatra/reloader'
+require 'mail'
+require 'date'
 
 DatabaseConnection.connect
 
@@ -15,6 +17,17 @@ class Application < Sinatra::Base
   enable :sessions
   configure :development do
     register Sinatra::Reloader
+  end
+
+  Mail.defaults do
+    delivery_method :smtp, {
+      address: 'smtp.elasticemail.com',
+      port: 587,
+      user_name: 'nfk18@msn.com',
+      password: 'C49AB22E0D650362E9B3073C12B4527146AC',
+      authentication: :plain,
+      enable_starttls_auto: true
+    }
   end
 get '/' do
   repo = PeepRepository.new
@@ -42,6 +55,7 @@ post '/new_user' do
     new_user = User.new(@username, @fullname, @email, @password)
     repo.create(new_user)
     repo = repo.all 
+    session[:user] = new_user
     return erb(:getting_started)
   else
     return erb(:already_exists)
@@ -101,6 +115,31 @@ end
 get '/log_out' do
   session[:user] = nil
   return redirect('/')
+end
+get '/send_email' do
+  # Create a new email message
+  @mail_to = session[:user].email
+  mail_from = 'Chitter'
+  email_from = 'nfk18@hotmail.co.uk'
+  if @mail_to.nil? || @mail_to.empty?
+    return 'Recipient email address is required.'
+  end
+  mail = Mail.new do |message|
+    
+    message.from    "#{mail_from} <#{email_from}>"
+    message.to      @mail_to
+    message.subject 'Welcome to chitter'
+    message.body    "your account has officially been created at #{DateTime.now}"
+  end
+
+  # Send the email
+  begin
+    mail.deliver!
+    'Email sent successfully.'
+  rescue => e
+    "Failed to send email. Error: #{e.message}"
+  end
+  return erb(:email)
 end
 end
 # We need to give the database name to the method `connect`.
