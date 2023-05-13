@@ -129,7 +129,7 @@ get '/send_email' do
     message.from    "#{mail_from} <#{email_from}>"
     message.to      @mail_to
     message.subject 'Welcome to chitter'
-    message.body    "your account has officially been created at #{DateTime.now}"
+    message.body    "your account is registered to #{session[:user].full_name} has officially been created on #{DateTime.now}. Your username is #{session[:user].username}, please make sure your password is secure as we don't have a recovery system yet. "
   end
 
   # Send the email
