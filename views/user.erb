@@ -7,11 +7,14 @@
   <h1><%= @user.username %></h1>
 
   <a href='/log_out'>LOG OUT</a>
+  <a href='/'>Main Page</a>
   <% @peeps.each do |peep| %>
     <% if @user.id == peep.user_id %>
+   <button class="box-button">
     <p> <%= peep.content %> <p>
     <p> <%= peep.time_made %> <p>
     <p> <%= @user.username %> <p>
+    </button>
     <% end %>
   <% end%>
   <div></div>

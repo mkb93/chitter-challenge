@@ -1,0 +1,27 @@
+<html>
+  <head>
+  <link rel="stylesheet" href="/style.css" />
+  </head>
+  <body>
+  <h1> Welcome To Chitter </h1>
+  <nav>
+  <ul>
+    <li><a href="/">Home</a></li>
+    <li><a href="/peep/new">Make A Peep</a></li>
+    <li><a href="/sign_up">Sign UP</a></li>
+    <li><a href="/user">Your Posts</a></li>
+  </ul>
+</nav>
+<button>
+<p><%=@peep.content%></p>
+<p><%=@peep.time_made%></p>
+<p><%=@users.find(@peep.user_id).username%></p>
+</button>
+  <div>
+
+  <h2><a href="/sign_up">Don't have an account?</a></h2>
+  <h2><a href="/log_in">already have an account? Log In</a></h2>
+  </div>
+  <div> <a href></div>
+  </body>
+</html>

@@ -5,6 +5,6 @@ class Peep
     @content = content
     @user_id = user_id
     current_time = DateTime.now
-    @time_made = current_time.strftime "%d/%m/%Y %H:%M"
+    @time_made = current_time
   end
 end

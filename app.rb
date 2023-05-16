@@ -141,6 +141,12 @@ get '/send_email' do
   end
   return erb(:email)
 end
+get '/peep/:id' do
+  @peep = PeepRepository.new.find(params[:id])
+  @users = UsersRepository.new
+
+  return erb(:peep)
+end
 end
 # We need to give the database name to the method `connect`.
 

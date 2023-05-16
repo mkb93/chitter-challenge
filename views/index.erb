@@ -16,9 +16,13 @@
   <div>
   <% @all.each do |peep| %>
     <div>
+    <a href="/peep/<%=peep.id%>">
+    <button class="box-button">
     <h1><%= @users.find(peep.user_id).username if @users.find(peep.user_id) != nil%></h1>
    <p> <%= peep.content %> <p>
    <p> <%= peep.time_made %> <p>
+   </button>
+   </a>
    </div>
   <% end %>
   <h2><a href="/sign_up">Don't have an account?</a></h2>
